@@ -25,4 +25,8 @@ class FrancTest < Minitest::Test
     assert_equal Franc.new(5), Franc.new(5)
     refute_equal Franc.new(5), Franc.new(6)
   end
+
+  def test_equality_with_dollar
+    refute_equal Franc.new(5), Dollar.new(5)
+  end
 end
