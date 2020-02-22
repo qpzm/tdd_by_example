@@ -8,30 +8,22 @@ class Money
   end
 
   def self.dollar(amount)
-    Dollar.new(amount, "USD")
+    new(amount, "USD")
   end
 
   def self.franc(amount)
-    Franc.new(amount, "CHF")
+    new(amount, "CHF")
   end
 
   def ==(other)
-    amount == other.amount && self.class == other.class
+    amount == other.amount && self.currency == other.currency
+  end
+
+  def times(multiplier)
+    Money.new(amount * multiplier, currency)
   end
 
   protected
 
   attr_reader :amount
-end
-
-class Dollar < Money
-  def times(multiplier)
-    Money.dollar(amount * multiplier)
-  end
-end
-
-class Franc < Money
-  def times(multiplier)
-    Money.franc(amount * multiplier)
-  end
 end
