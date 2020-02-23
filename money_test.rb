@@ -45,6 +45,14 @@ class MoneyTest < Minitest::Test
     result = bank.reduce(Money.franc(2), "USD")
     assert_equal Money.dollar(1), result
   end
+
+  def test_mixed_addition
+    sum = Sum.new(Money.dollar(5), Money.franc(10))
+    bank = Bank.new
+    bank.add_rate("CHF", "USD", 2)
+    result = bank.reduce(sum, "USD")
+    assert_equal Money.dollar(10), result
+  end
 end
 
 class BankTest < MiniTest::Test
