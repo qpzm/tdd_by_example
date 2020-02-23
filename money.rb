@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require 'ostruct'
+
 class Money
   attr_reader :amount, :currency
 
@@ -35,7 +37,7 @@ end
 
 class Bank
   def initialize
-    @exchange_rates = {}
+    @rates = {}
   end
 
   def reduce(expr, to)
@@ -43,11 +45,19 @@ class Bank
   end
 
   def add_rate(from, to, rate)
+    pair = OpenStruct.new(from: from, to: to)
+    rates[pair] = rate
   end
 
   def rate(from, to)
-    from == 'CHF' && to == 'USD' ? 2 : 1
+    return 1 if from == to
+    pair = OpenStruct.new(from: from, to: to)
+    rates[pair]
   end
+
+  private
+
+  attr_reader :rates
 end
 
 class Sum

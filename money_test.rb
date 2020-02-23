@@ -19,7 +19,6 @@ class MoneyTest < Minitest::Test
     assert_equal 'CHF', Money.franc(1).currency
   end
 
-
   def test_reduce_sum
     sum = Sum.new(Money.dollar(3), Money.dollar(4))
     bank = Bank.new
@@ -45,5 +44,17 @@ class MoneyTest < Minitest::Test
     bank.add_rate("CHF", "USD", 2)
     result = bank.reduce(Money.franc(2), "USD")
     assert_equal Money.dollar(1), result
+  end
+end
+
+class BankTest < MiniTest::Test
+  def test_identity_rate
+    assert_equal 1, Bank.new.rate('USD', 'USD')
+  end
+
+  def test_pair_equality_as_hash_key
+    pair1 = OpenStruct.new(from: 'USD', to: 'CHF')
+    pair2 = OpenStruct.new(from: 'USD', to: 'CHF')
+    assert pair1.eql? pair2
   end
 end
