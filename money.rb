@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class Money
-  attr_reader :currency
+  attr_reader :amount, :currency
 
   def initialize(amount, currency)
     @amount = amount
@@ -24,16 +24,26 @@ class Money
   end
 
   def plus(other)
-    Money.new(amount + other.amount, currency)
+    Sum.new(self, other)
   end
-
-  protected
-
-  attr_reader :amount
 end
 
 class Bank
   def reduce(expr, to)
-    Money.dollar(10)
+    expr.reduce(to)
+  end
+end
+
+class Sum
+  attr_reader :augend, :addend
+
+  def initialize(augend, addend)
+    @augend = augend
+    @addend = addend
+  end
+
+  def reduce(to)
+    amount = augend.amount + addend.amount
+    Money.new(amount, to)
   end
 end
