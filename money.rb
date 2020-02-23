@@ -26,6 +26,10 @@ class Money
   def plus(other)
     Sum.new(self, other)
   end
+
+  def reduce(to)
+    self
+  end
 end
 
 class Bank
